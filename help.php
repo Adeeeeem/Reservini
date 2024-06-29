@@ -2,10 +2,6 @@
 <html lang="en">
 <head>
 	<title>Reservini</title>
-	<!-- The Author of this page -->
-	<meta name="author" content="Mohamed Adem Ben Moussa">
-	<meta name="author" content="Mohamed Mehdi Charni">
-	<meta name="author" content="Zakaria Ben Salem">
 	<!-- Specify the character encoding of your content -->
 	<meta charset="UTF-8">
 	<!-- Tell Internet Explorer to use the latest Rendering Engine -->

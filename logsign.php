@@ -45,6 +45,7 @@
         </div>
     </div>
 </nav>
+
 <div class="ls">
     <div class="backbox">
         <div class="loginMsg">
@@ -54,7 +55,7 @@
                 <button id="switch1">Sign Up</button>
             </div>
         </div>
-        <div class="signupMsg visibility">
+        <div class="signupMsg">
             <div class="textcontent">
                 <p class="title">Have an account?</p>
                 <p>Log in to see all your collection.</p>
@@ -87,16 +88,6 @@
         </div>
     </div>
 </div>
-<div id="sp">
-    <div id="sponsor" class="owl-carousel">
-        <div><img src="img/logos/ifm.png"></div>
-        <div><img src="img/logos/blasti.png"></div>
-        <div><img src="img/logos/baguette.png"></div>
-        <div><img src="img/logos/teskerti.png"></div>
-        <div><img src="img/logos/boudinar.png"></div>
-        <div><img src="img/logos/kfc.png"></div>
-    </div>
-</div>
 
 <!-- jQuery 3.3.1 -->
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
@@ -106,57 +97,5 @@
 <script src="js/owl-carousel/owl.carousel.min.js"></script>
 <!-- Custom JavaScript -->
 <script type="text/javascript" src="js/script.js"></script>
-<script>
-    $(document).ready(function() {
-        // Switch between login and sign-up forms
-        $('#switch1').on('click', function() {
-            $('.loginMsg').toggleClass('visibility');
-            $('.frontbox').addClass('moving');
-            $('.signupMsg').toggleClass('visibility');
-
-            $('.signup').toggleClass('hide');
-            $('.login').toggleClass('hide');
-        });
-
-        $('#switch2').on('click', function() {
-            $('.loginMsg').toggleClass('visibility');
-            $('.frontbox').removeClass('moving');
-            $('.signupMsg').toggleClass('visibility');
-
-            $('.signup').toggleClass('hide');
-            $('.login').toggleClass('hide');
-        });
-
-        $('#loginButton').click(function(event) {
-            event.preventDefault();
-
-            var email = $('#email').val();
-            var password = $('#password').val();
-
-            if (email.trim() === '' || password.trim() === '') {
-                alert('Please enter both email and password.');
-                return;
-            }
-
-            $.ajax({
-                url: 'login.php',
-                type: 'POST',
-                data: {
-                    email: email,
-                    password: password
-                },
-                success: function(response) {
-                    console.log(response); 
-                    window.location.href = 'view_event.php';
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                    alert('Error: ' + xhr.responseText);
-                }
-            });
-        });
-
-    });
-</script>
 </body>
 </html>

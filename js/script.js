@@ -30,19 +30,6 @@ $('#switch2').on('click', function() {
   $login.toggleClass('hide');
 });
 
-/* Owl Carousel Sponsor */
-$(function() {
-  $("#sponsor").owlCarousel({
-    items: 3,
-    autoplay: true,
-    smartSpeed: 700,
-    loop: true,
-    autoplayHoverPause: false,
-    nav: false,
-    dots: false,
-  });
-});
-
 /* Result create (Event Maker) */
 $("#sidenav1").on("click", function() {
   $("#result1").show();
@@ -127,70 +114,78 @@ $(document).ready(function() {
 });
 
 
-
 $(document).ready(function() {
-    // Switch between login and sign-up forms
-    $('#switch1').on('click', function() {
-        $('.loginMsg').toggleClass('visibility');
-        $('.frontbox').addClass('moving');
-        $('.signupMsg').toggleClass('visibility');
+        $('#switch1').on('click', function() {
+            $('.loginMsg').toggleClass('visibility');
+            $('.frontbox').addClass('moving');
+            $('.signupMsg').toggleClass('visibility');
 
-        $('.signup').toggleClass('hide');
-        $('.login').toggleClass('hide');
-    });
+            $('.signup').removeClass('hide');
+            $('.login').addClass('hide');
+        });
 
-    $('#switch2').on('click', function() {
-        $('.loginMsg').toggleClass('visibility');
-        $('.frontbox').removeClass('moving');
-        $('.signupMsg').toggleClass('visibility');
+        $('#switch2').on('click', function() {
+            $('.loginMsg').toggleClass('visibility');
+            $('.frontbox').removeClass('moving');
+            $('.signupMsg').toggleClass('visibility');
 
-        $('.signup').toggleClass('hide');
-        $('.login').toggleClass('hide');
-    });
+            $('.signup').addClass('hide');
+            $('.login').removeClass('hide');
+        });
 
-    // Login Form Submission
-    $('#loginForm').submit(function(event) {
-        event.preventDefault();
+        $('#loginButton').click(function(event) {
+            event.preventDefault();
 
-        var email = $('#email').val();
-        var password = $('#password').val();
+            var email = $('#email').val().trim();
+            var password = $('#password').val().trim();
 
-        $.ajax({
-            url: 'login.php',
-            type: 'POST',
-            data: {
-                email: email,
-                password: password
-            },
-            success: function(response) {
-                console.log(response);
-                window.location.href = 'view_event.php';
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                alert('Error: ' + xhr.responseText);
+            if (email === '' || password === '') {
+                alert('Please enter both email and password.');
+                return;
             }
+
+            $.ajax({
+                url: 'login.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    email: email,
+                    password: password
+                },
+                success: function(response) {
+                    if (response.status === "success") {
+                        window.location.href = 'view_event.php';
+                    } else if (response.status === "not_found") {
+                        alert(response.message);
+                        $('#switch1').click();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    alert('Error: ' + xhr.responseText);
+                }
+            });
         });
     });
 
-    $('#signupForm').submit(function(event) {
+$(document).ready(function() {
+    $('.reserve-button').on("click", function(event) {
         event.preventDefault();
 
-        var fullname = $('#fullname1').val();
-        var email = $('#email1').val();
-        var password = $('#password1').val();
+        var eventId = $(this).data('event-id');
 
         $.ajax({
-            url: 'signup.php',
+            url: 'reserve_event.php',
             type: 'POST',
             data: {
-                fullname: fullname,
-                email: email,
-                password: password
+                event_id: eventId
             },
             success: function(response) {
-                console.log(response); 
-                window.location.href = 'view_event.php';
+                console.log(response);
+                alert('Event reserved successfully!');
+                window.location.reload();
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);

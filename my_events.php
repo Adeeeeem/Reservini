@@ -1,9 +1,12 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservini - View Events</title>
+    <title>My Events - Reservini</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -41,7 +44,7 @@
     <div class="container text-center">
         <br>
         <img src="img/logo.png" width="200px" height="50px"><hr>
-        <h4 id="viewing">Events</h4>
+        <h4 id="viewing">My Events</h4>
 
         <div class="table-responsive">
             <?php
@@ -50,46 +53,50 @@
             $password = "";
             $dbname = "reservini";
 
-            // Create connection
             $conn = new mysqli($servername, $username, $password, $dbname);
 
-            // Check connection
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
 
-            $sql = "SELECT id, name, date_event, time_event, location_event, facebook_event FROM event";
-            $result = $conn->query($sql);
+            if (isset($_SESSION['user_id'])) {
+                $userId = $_SESSION['user_id'];
+                $sql = "SELECT e.name, e.date_event, e.time_event, e.location_event, e.facebook_event
+                        FROM event e
+                        INNER JOIN reservation r ON e.id = r.event_id
+                        WHERE r.user_id = '$userId'";
+                $result = $conn->query($sql);
 
-            if ($result->num_rows > 0) {
-                echo '<table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th scope="col">Event Name</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Time</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">Facebook</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>';
+                if ($result !== false && $result->num_rows > 0) {
+                    echo '<table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Event Name</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Location</th>
+                                    <th scope="col">Facebook</th>
+                                </tr>
+                            </thead>
+                            <tbody>';
 
-                while($row = $result->fetch_assoc()) {
-                    echo '<tr>
-                            <td>'. $row["name"].'</td>
-                            <td>'. $row["date_event"].'</td>
-                            <td>' . $row["time_event"].'</td>
-                            <td>'. $row["location_event"].'</td>
-                            <td>' . $row["facebook_event"].'</td>
-                            <td><button class="btn btn-primary reserve-button" data-event-id="'. $row["id"] .'">Reserve</button></td>
-                          </tr>';
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<tr>
+                                <td>' . $row["name"] . '</td>
+                                <td>' . $row["date_event"] . '</td>
+                                <td>' . $row["time_event"] . '</td>
+                                <td>' . $row["location_event"] . '</td>
+                                <td>' . $row["facebook_event"] . '</td>
+                              </tr>';
+                    }
+
+                    echo '  </tbody>
+                          </table>';
+                } else {
+                    echo "<p>No events found.</p>";
                 }
-
-                echo '  </tbody>
-                      </table>';
             } else {
-                echo "No events found.";
+                echo "<p>User not logged in.</p>";
             }
 
             $conn->close();

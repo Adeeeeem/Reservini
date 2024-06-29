@@ -48,13 +48,15 @@
     <div class="sidenav text-center">
         <a href="create.php" id="sidenav1">Create</a>
         <a href="view_event.php" id="sidenav2">Events</a>
+        <a href="my_events.php" id="sidenav3">My Events</a>
+        <a href="logout.php" id="sidenav4">Sign Out</a>
     </div>
 
     <div id="result1" class="container text-center">
         <br>
         <img src="img/logo.png" width="200px" height="50px"><hr>
-        <h4 id="creating">Creating an Event</h4>
-        <form id="createEventForm" action="add_event.php" method="POST" enctype="multipart/form-data">
+        <h4 id="creating">Creating an Event</h4><br><br><br>
+        <form id="createEventForm" action="add_event.php" method="POST">
             <div class="row">
                 <div class="col">
                     <label for="eventname"><h5>Event Name *</h5></label>
@@ -112,7 +114,7 @@
     <!-- jQuery 3.3.1 -->
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <!-- Bootstrap JavaScript -->
-    <script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <!-- Include js plugin -->
     <script src="js/owl-carousel/owl.carousel.min.js"></script>
     <!-- Custom JavaScript -->

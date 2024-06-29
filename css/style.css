@@ -429,3 +429,11 @@ font-size: 15px;
     margin: auto auto;
     margin-top: 2%;
 }
+
+.visibility {
+    display: none;
+}
+
+.hide {
+    display: none;
+}

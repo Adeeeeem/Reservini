@@ -24,17 +24,15 @@ if ($result->num_rows > 0) {
 
     // Verify the entered password against the stored hashed password
     if (password_verify($password, $stored_password)) {
-        $_SESSION['user_id'] = $row['user_id'];
+        $_SESSION['user_id'] = $row['id'];
         $_SESSION['fullname'] = $row['fullname'];
-        echo "Login successful!";
-        // Redirect to view_event.php or any other page after successful login
-        header("Location: view_event.php");
+        echo json_encode(["status" => "success", "message" => "Login successful!"]);
         exit();
     } else {
-        echo "Incorrect email or password.";
+        echo json_encode(["status" => "error", "message" => "Incorrect email or password."]);
     }
 } else {
-    echo "User not found.";
+    echo json_encode(["status" => "not_found", "message" => "User not found."]);
 }
 
 $conn->close();
